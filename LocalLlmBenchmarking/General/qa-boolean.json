@@ -1,0 +1,4 @@
+[
+  { "question": "not ( ( not not True ) ) is?", "answer": "false" },
+  { "question": "not not ( not ( False ) ) is?", "answer": "true" }
+]
