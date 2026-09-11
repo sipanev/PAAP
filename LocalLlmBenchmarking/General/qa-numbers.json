@@ -13,6 +13,7 @@
   { "question": "What is 100 times zero?", "answer": "0" },
   { "question": "Multiply 20 by 3, then subtract 10, what is the answer?", "answer": "50" },
   { "question": "If John has 6 brothers, how many brothers does John have?", "answer": "6" },
+  { "question": "If Grant has 3 brothers, how many brothers are in this family?", "answer": "4" },
   { "question": "What is bigger, 20 or 50?", "answer": "50" },
   { "question": "What is the smaller number, 2 or 200?", "answer": "2" },
   { "question": "What comes after 1,2,3,4,5?", "answer": "6" },

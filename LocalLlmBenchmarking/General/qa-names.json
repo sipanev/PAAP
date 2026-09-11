@@ -1,5 +1,5 @@
 [
-  { "question": "who is the president of usa?", "answer": ["Joe Biden", "Donald Trump", "Donald J. Trump", "Donald John Trump"] },
+  { "question": "who is the president of usa?", "answer": ["Joe Biden", "Biden", "Donald Trump", "Donald J. Trump", "Donald John Trump"] },
   { "question": "What is the capital of France?", "answer": "Paris" },
   { "question": "What is the capital of Germany?", "answer": "Berlin" },
   { "question": "What is the capital of Oregon?", "answer": "Salem" },

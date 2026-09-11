@@ -1,7 +1,7 @@
 import json
 import sys
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from localLlmClient import *
 
@@ -29,7 +29,7 @@ def RunYesNoQuestions(llmClient, questionsAndAnswers, startTime=None, maxTimeInS
         prompt = 'From now on only answer with "yes", "no" or "don\'t know".'
         question2 = prompt + ' ' + question
         resp = llmClient.TalkToLlm(question2, 'low')
-        print(question, answer, '=>', '"'+resp+'"')
+        print(FormatElapsed(startTime), question, answer, '=>', '"'+resp+'"')
         resp = ProcessYesNoAnswer(resp)
         total += 1
         if CheckResponse(answer, resp):
@@ -82,7 +82,7 @@ def RunNumberQuestions(llmClient, questionsAndAnswers, startTime=None, maxTimeIn
         prompt = 'From now on only answer with numbers.'
         question2 = prompt + ' ' + question
         resp = llmClient.TalkToLlm(question2, 'low')
-        print(question, answer, '=>', '"'+resp+'"')
+        print(FormatElapsed(startTime), question, answer, '=>', '"'+resp+'"')
         resp = ProcessNumberAnswer(resp)
         total += 1
         if answer.lower() == resp.lower():
@@ -117,7 +117,7 @@ def RunNamesQuestions(llmClient, questionsAndAnswers, startTime=None, maxTimeInS
         question2 = prompt + ' ' + question
         #print(question, '=>', answer)
         resp = llmClient.TalkToLlm(question2, 'low')
-        print(question, answer, '=>', '"'+resp+'"')
+        print(FormatElapsed(startTime), question, answer, '=>', '"'+resp+'"')
         resp = ProcessNameAnswer(resp)
         total += 1
         if CheckResponse(answer, resp):
@@ -133,6 +133,14 @@ def RunNamesQuestions(llmClient, questionsAndAnswers, startTime=None, maxTimeInS
     stats['failed'] = failed
     return stats
 
+def FormatElapsed(startTime):
+    if startTime is None:
+        return None
+    timeDiff = (datetime.now() - startTime).total_seconds()
+    timeDiff = int(timeDiff)
+    td = timedelta(seconds=timeDiff)
+    #return '[+{0}s]'.format(timeDiff)
+    return '[+{0}]'.format(str(td))
 
 def RunBooleanQuestions(llmClient, questionsAndAnswers, startTime=None, maxTimeInSeconds=0):
     total = 0
@@ -153,7 +161,7 @@ def RunBooleanQuestions(llmClient, questionsAndAnswers, startTime=None, maxTimeI
         question2 = prompt + ' ' + question
         #print(question, '=>', answer)
         resp = llmClient.TalkToLlm(question2, 'low')
-        print(question, answer, '=>', '"'+resp+'"')
+        print(FormatElapsed(startTime), question, answer, '=>', '"'+resp+'"')
         resp = ProcessBoolAnswer(resp)
         total += 1
         if CheckResponse(answer, resp):
@@ -289,7 +297,7 @@ def RunBenchmarksOnAllModels(client):
     cnt = 0
     for model in models:
         try:
-            BenchmarkModel(client, model, 200, True)
+            BenchmarkModel(client, model, 240, True)
             cnt += 1
             if cnt > 30:
                 break
@@ -307,7 +315,7 @@ def BenchmarkQuestions(client):
         cnt += 1
         try:
             print(cnt, 'Benchmarking', model, '...')
-            stats = BenchmarkModelAndGetStats(client, model, 180)
+            stats = BenchmarkModelAndGetStats(client, model, 240)
             # Increments the counts
             for question, details in stats['qaDetails'].items():
                 if not question in questionCounts:
